@@ -1,0 +1,12 @@
+# 환경 변수 파일 
+.env
+.env.*
+
+# Python 캐시 파일
+__pycache__/
+*.pyc
+
+
+db.sqlite3
+
+/media/

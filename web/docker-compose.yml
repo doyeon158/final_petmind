@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: petmind-web
+    restart: always
+    command: >
+      sh -c "
+        python manage.py migrate &&
+        python import_breeds.py &&
+        python import_contents.py &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+    expose:
+      - "8000"
+    env_file:
+      - ./.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - static_volume:/app/collected_static
+
+  nginx:
+    image: nginx:latest
+    container_name: petmind-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_volume:/app/collected_static
+
+volumes:
+  db_data:
+  static_volume:

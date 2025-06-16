@@ -34,7 +34,11 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['43.201.112.124', 'localhost', '127.0.0.1', '0.0.0.0', 'petmind.com']
+=======
+ALLOWED_HOSTS = ['13.124.112.16', 'localhost', '127.0.0.1', '0.0.0.0', 'petmind.com']
+>>>>>>> upstream/main
 
 
 # Application definition
@@ -101,6 +105,7 @@ DATABASES = {
     }
 }
 
+<<<<<<< HEAD
 STORAGES = {
     'default': {
         'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage'
@@ -124,6 +129,10 @@ MEDIA_URL            = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+=======
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+>>>>>>> upstream/main
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -171,6 +180,12 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
+<<<<<<< HEAD
+=======
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+>>>>>>> upstream/main
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

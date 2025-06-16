@@ -1,10 +1,34 @@
 version: '3.8'
 
 services:
+<<<<<<< HEAD
+=======
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: petmind_db
+      MYSQL_USER: petmind
+      MYSQL_PASSWORD: petmind_password
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+>>>>>>> upstream/main
   web:
     build: .
     container_name: petmind-web
     restart: always
+<<<<<<< HEAD
     command: >
       sh -c "
         python manage.py migrate &&
@@ -37,3 +61,18 @@ services:
 volumes:
   db_data:
   static_volume:
+=======
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8000"
+    depends_on:
+      db:
+        condition: service_healthy 
+    env_file:
+      - .env
+
+volumes:
+  db_data:
+>>>>>>> upstream/main

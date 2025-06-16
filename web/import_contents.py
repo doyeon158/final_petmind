@@ -11,7 +11,11 @@ django.setup()
 
 from chat.models import Content
 
+<<<<<<< HEAD
 csv_path = os.path.join(BASE_DIR, 'data',  "merged_rag_data.csv")
+=======
+csv_path = os.path.join(BASE_DIR, "merged_rag_data.csv")
+>>>>>>> upstream/main
 
 with open(csv_path, newline='', encoding="utf-8-sig") as csvfile: 
     reader = csv.DictReader(csvfile)

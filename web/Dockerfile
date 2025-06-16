@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     gnupg \
-    fonts-nanum \                           
+    fonts-nanum \
+    fonts-noto-color-emoji \                           
     fonts-liberation \
     libappindicator3-1 \
     libasound2 \

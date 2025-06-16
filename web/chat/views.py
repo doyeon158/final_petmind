@@ -837,17 +837,21 @@ def generate_report(request):
     print("📩 받은 데이터:", data)
 
     if not (chat_id and start_date and end_date):
+        print("❌ 필수 파라미터 누락")
         return Response({"error": "필수 값 누락"}, status=400)
 
     dog, history = load_chat_and_profile(chat_id, start_date, end_date)
     if not dog or not history:
+        print(f"❌ dog 또는 history 없음 - chat_id: {chat_id}")
         return Response({"error": "해당 chat_id에 대한 데이터가 없습니다."}, status=404)
 
     try:
         messages = build_prompt(dog, history)
         raw_output = generate_response(messages)
         intro, advice, next_, is_split_success = clean_and_split(raw_output)
+        print("✅ GPT 응답 정상 처리 완료")
     except Exception as e:
+        print("❌ GPT 처리 중 오류:", str(e))
         return Response({"error": f"GPT 처리 중 오류: {str(e)}"}, status=500)
 
     base64_img = None
@@ -857,14 +861,17 @@ def generate_report(request):
             image_path = dog["image"]
             cleaned_image_path = unquote(image_path.replace("/media/", ""))
             base64_img, mime_type = get_base64_image(cleaned_image_path)
+
+            if not base64_img:
+                print("⚠️ 이미지 인코딩 실패 또는 이미지 없음:", cleaned_image_path)
         except Exception as e:
+            print("❌ 이미지 인코딩 중 오류:", str(e))
             base64_img = None
             mime_type = None
 
     context = {
         "dog_name": dog["name"],
         "age": dog["age"],
-        "breed_name": dog["breed_name"],
         "gender_display": dog["gender"],
         "neutered": dog["neutered"],
         "disease_history": dog["disease_history"],
@@ -883,11 +890,21 @@ def generate_report(request):
     }
 
     try:
+        from django.template.loader import render_to_string
+        html_str = render_to_string("chat/report_template.html", context)
+        debug_path = "/tmp/last_report.html"
+        with open(debug_path, "w", encoding="utf-8") as f:
+            f.write(html_str)
+        print(f"📄 HTML 디버깅 파일 저장됨: {debug_path}")
+
         pdf_path = generate_pdf_from_context(context, pdf_filename=f"report_{chat_id}.pdf")
+        print(f"✅ PDF 생성 성공: {pdf_path}")
+
         request.session[f"pdf_path_{chat_id}"] = pdf_path
-        print("✅ PDF 생성 완료:", pdf_path)
         return Response({"status": "success"})
+
     except Exception as e:
+        print("❌ PDF 생성 실패:", str(e))
         return Response({"error": f"PDF 생성 실패: {str(e)}"}, status=500)
     
 

@@ -11,6 +11,8 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 def generate_pdf_from_context(context, pdf_filename="report.pdf"):
@@ -40,7 +42,8 @@ def generate_pdf_from_context(context, pdf_filename="report.pdf"):
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--window-size=794,1123")
 
-        driver = webdriver.Chrome(options=chrome_options)
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get("file://" + html_path)
         print(f"🌐 PDF 렌더링 시작: file://{html_path}")
         time.sleep(2)

@@ -1,11 +1,9 @@
 from django.urls import path
 from . import views
-from django.http import HttpResponse
 
 app_name = 'chat'
 
 urlpatterns = [
-    path('healthz/', lambda req: HttpResponse('OK'), name='healthz'),
     path('', views.chat_entry, name='chat_entry'),
 
     path('main/', views.chat_main, name='main'),

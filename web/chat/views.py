@@ -421,7 +421,7 @@ def get_chat_history(chat):
 
 def call_runpod_api(message, dog_info):
     try:
-        api_url = "http://69.48.159.14:21878/chat"
+        api_url = "http://69.48.159.14:19046/chat"      # 06.16 09:25
         payload = {
             "message": message,
             "dog_info": dog_info
@@ -699,10 +699,12 @@ def recommend_content(request, chat_id):
         else:
             html += f'''
             <a href="{item['reference_url']}" target="_blank" class="recommend-card-link">
-            <div class="recommend-card no-image">
+            <div class="recommend-card with-image">
+                <div class="card-content-section">
                 <p class="recommend-title">{item['title']}</p>
                 <p class="recommend-description">{item['body'][:80]}···</p>
                 <span class="recommend-link-text">👉 자세히 보기</span>
+                </div>
             </div>
             </a>
             '''

@@ -32,13 +32,9 @@ config = Config(RepositoryEnv(env_path))
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
-# ALLOWED_HOSTS = ['13.124.112.16', 'localhost', '127.0.0.1', '0.0.0.0', 'petmind.com']
-
-DEBUG = config('DEBUG', default='False') == 'True'
-ALLOWED_HOSTS = ['52.78.58.71', '43.202.244.172', 'petmind.com', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = ['43.201.112.124', 'localhost', '127.0.0.1', '0.0.0.0', 'petmind.com']
 
 
 # Application definition
@@ -54,7 +50,6 @@ INSTALLED_APPS = [
     'dogs',
     'chat',
     'rest_framework',
-    'storages'
 ]
 
 MIDDLEWARE = [
@@ -102,7 +97,6 @@ DATABASES = {
         'PORT': config('DB_PORT'),
         'OPTIONS': {
             'charset': config('DB_CHARSET', default='utf8mb4'),
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'"
         }
     }
 }
@@ -126,6 +120,7 @@ AWS_QUERYSTRING_AUTH = False  # presigned url querystring 숨김
 AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
 AWS_DEFAULT_ACL      = 'public-read'
 MEDIA_URL            = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -168,10 +163,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')

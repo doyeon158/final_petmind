@@ -38,7 +38,8 @@ from urllib.parse import unquote
 from dogs.models import PersonalityResult
 from chat.utils import format_dog_info
 import pytz
-
+from pathlib import Path
+from decouple import Config, RepositoryEnv
 
 def chat_entry(request):
     if request.session.get('guest'):
@@ -419,9 +420,14 @@ def get_chat_history(chat):
             break
     return chat_history, prev_q, prev_a
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+env_path = os.path.join(BASE_DIR, '.env')
+config = Config(RepositoryEnv(env_path))
+
 def call_runpod_api(message, dog_info):
     try:
-        api_url = "http://69.48.159.14:19046/chat"   # 0616 09:51
+        api_host = config("RUNPOD_API_HOST")
+        api_url = f"http://{api_host}/chat"
         payload = {
             "message": message,
             "dog_info": dog_info

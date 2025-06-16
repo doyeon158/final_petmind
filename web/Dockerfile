@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# 1) 시스템 의존성 설치 (chromium만 설치)
+# 1) 시스템 의존성 설치 (chromium만 설치하고, google-chrome 심볼릭 링크 생성)
 RUN apt-get update && apt-get install -y \
     gcc \
     default-libmysqlclient-dev \
@@ -32,9 +32,10 @@ RUN apt-get update && apt-get install -y \
     libxrandr2 \
     xdg-utils \
     chromium \
+ && ln -s /usr/bin/chromium /usr/bin/google-chrome \
  && rm -rf /var/lib/apt/lists/*
 
-# 2) requirements.txt 설치 (webdriver-manager 포함)
+# 2) requirements.txt 설치 (webdriver-manager 포함되어야 함)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 

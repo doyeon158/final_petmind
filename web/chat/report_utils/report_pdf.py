@@ -43,7 +43,8 @@ def generate_pdf_from_context(context, pdf_filename="report.pdf"):
         chrome_options.add_argument("--window-size=794,1123")
 
 
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+        service = Service(executable_path=ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get("file://" + html_path)
         print(f"🌐 PDF 렌더링 시작: file://{html_path}")
         time.sleep(2)

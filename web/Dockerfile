@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# 1) 시스템 의존성 설치 (chromium만 설치하고, google-chrome 심볼릭 링크 생성)
+# 1) 시스템 의존성 설치 (chromium + 한글 폰트 + google-chrome 링크 생성)
 RUN apt-get update && apt-get install -y \
     gcc \
     default-libmysqlclient-dev \
@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     gnupg \
+    fonts-nanum \                           
     fonts-liberation \
     libappindicator3-1 \
     libasound2 \
